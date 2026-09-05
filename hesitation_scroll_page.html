@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hesitation</title>
+
+  <!-- Thin, modern industrial typeface -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --scroll: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: #050505;
+    }
+
+    body {
+      margin: 0;
+      min-height: 360vh;
+      background: #050505;
+      color: white;
+      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .scene {
+      position: fixed;
+      inset: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background: #050505;
+    }
+
+    .background {
+      position: absolute;
+      inset: -5%;
+      background:
+        linear-gradient(
+          rgba(0, 0, 0, calc(.72 - var(--scroll) * .35)),
+          rgba(0, 0, 0, calc(.82 - var(--scroll) * .35))
+        ),
+        url("main.png")
+        center 48% / cover no-repeat;
+        /* https://images.unsplash.com/photo-1517976547714-720226b864c1?auto=format&fit=crop&w=2400&q=90 */
+
+      opacity: calc(var(--scroll) * 1.15);
+      transform:
+        scale(calc(1.08 - var(--scroll) * .055))
+        translateY(calc(var(--scroll) * -1.5vh));
+      filter:
+        grayscale(0.2)
+        contrast(1.1)
+        brightness(.75);
+
+      transition: opacity .08s linear;
+      will-change: opacity, transform;
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          circle at center,
+          transparent 25%,
+          rgba(0,0,0,.18) 58%,
+          rgba(0,0,0,.65) 100%
+        );
+      pointer-events: none;
+    }
+
+    .word-wrap {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      z-index: 2;
+    }
+
+    .word {
+      margin: 0;
+      padding-left: calc(0.02em + var(--scroll) * 0.5em);
+      font-size: clamp(2.7rem, 8.2vw, 9rem);
+      font-weight: 100;
+      line-height: 1;
+      text-transform: uppercase;
+      white-space: nowrap;
+
+      /* starts compact, ends dramatically spaced */
+      letter-spacing: calc(0em + var(--scroll) * 0.52em);
+
+      /* subtle fade toward a more integrated look */
+      color: rgba(255,255,255,calc(.98 - var(--scroll) * .12));
+      text-shadow: 0 1px 18px rgba(0,0,0,.18);
+
+      will-change: letter-spacing, color;
+    }
+
+    .grain {
+      position: absolute;
+      inset: 0;
+      opacity: .055;
+      pointer-events: none;
+      z-index: 3;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+
+      font-size: 10px;
+      font-weight: 200;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      opacity: calc(.45 - var(--scroll) * .8);
+      white-space: nowrap;
+    }
+
+    .line {
+      display: inline-block;
+      width: 34px;
+      height: 1px;
+      margin-right: 14px;
+      vertical-align: middle;
+      background: currentColor;
+      opacity: .7;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        min-height: 300vh;
+      }
+
+      .word {
+        font-size: clamp(2.15rem, 11vw, 5rem);
+        letter-spacing: calc(-.02em + var(--scroll) * .25em);
+        padding-left: calc(var(--scroll) * .25em);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .background {
+        transform: none;
+      }
+
+      .word {
+        letter-spacing: .18em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="scene">
+    <div class="background" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="word-wrap">
+      <h1 class="word">HESITATION</h1>
+    </div>
+
+    <div class="hint">
+      <span class="line"></span>scroll
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
+  </main>
+
+  <script>
+    const root = document.documentElement;
+
+    function updateScroll() {
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+      const eased = Math.min(1, Math.max(0, progress));
+
+      root.style.setProperty("--scroll", eased.toFixed(4));
+    }
+
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("resize", updateScroll);
+  </script>
+</body>
+</html>
