@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-
+import { MeshoptDecoder }
+  from "three/addons/libs/meshopt_decoder.module.js";
 /* =========================================================
    V2 VISUAL LOOK — RESTORED
 ========================================================= */
@@ -193,11 +194,14 @@ stage.addEventListener(
 
 canvas.addEventListener(
   "pointerdown",
-  () => {
+  (event) => {
+
     isDragging = true;
+
     canvas.setPointerCapture?.(
       event.pointerId
     );
+
   }
 );
 
@@ -289,6 +293,10 @@ new RGBELoader()
 
 const loader =
   new GLTFLoader();
+
+loader.setMeshoptDecoder(
+  MeshoptDecoder
+);
 
 let spacecraft = null;
 let modelRadius = 1;
