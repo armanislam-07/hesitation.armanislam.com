@@ -251,7 +251,7 @@ pmrem.compileEquirectangularShader();
 
 new RGBELoader()
   .load(
-    "studio.hdr",
+    "studio-1k.hdr",
 
     (hdrTexture) => {
 
@@ -294,7 +294,7 @@ let spacecraft = null;
 let modelRadius = 1;
 
 loader.load(
-  "model.glb",
+  "model-web.glb",
 
   (gltf) => {
 
