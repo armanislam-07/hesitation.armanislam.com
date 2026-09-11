@@ -174,6 +174,12 @@ body {
     );
 
   will-change: opacity;
+
+  /*
+    MOBILE:
+    Let the browser own vertical finger scrolling.
+  */
+  touch-action: pan-y;
 }
 
 .model-stage.interactive {
@@ -200,7 +206,8 @@ body {
     Vertical swipes remain usable for page scrolling.
     Horizontal mouse/touch movement still rotates the model.
   */
-  touch-action: pan-y;
+  touch-action: pan-y !important;
+  overscroll-behavior-y: auto;
 }
 
 .model-halo {
@@ -285,6 +292,14 @@ body {
 
   background: currentColor;
   opacity: .65;
+}
+
+.model-ui-mobile {
+  display: none;
+}
+
+.model-ui-desktop {
+  display: inline;
 }
 
 /* =========================================================
@@ -536,7 +551,19 @@ body {
 
   .model-ui {
     left: 22px;
+    right: 22px;
     bottom: 24px;
+
+    font-size: 8px;
+    letter-spacing: .18em;
+  }
+
+  .model-ui-desktop {
+    display: none;
+  }
+
+  .model-ui-mobile {
+    display: inline;
   }
 
   .word {

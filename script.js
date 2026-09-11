@@ -122,6 +122,17 @@ controls.rotateSpeed = 0.50;
 
 controls.target.set(0, 0, 0);
 
+/*
+  MOBILE SCROLL FIX
+
+  OrbitControls writes `touch-action: none` onto its canvas.
+  That can trap the user inside the 3D model on phones.
+
+  Restoring `pan-y` here lets vertical swipes scroll the page,
+  while horizontal gestures can still rotate the model.
+*/
+renderer.domElement.style.touchAction = "pan-y";
+
 
 /* =========================================================
    CURSOR-FOLLOW MOTION
@@ -159,6 +170,14 @@ stage.addEventListener(
   "pointermove",
   (event) => {
 
+    /*
+      Cursor-follow is desktop-only.
+      Touch input should remain available for scrolling.
+    */
+    if (event.pointerType === "touch") {
+      return;
+    }
+
     const rect =
       stage.getBoundingClientRect();
 
@@ -195,6 +214,16 @@ stage.addEventListener(
 canvas.addEventListener(
   "pointerdown",
   (event) => {
+
+    /*
+      Do not manually capture touch pointers.
+      This allows the browser to turn vertical finger movement
+      into normal page scrolling.
+    */
+    if (event.pointerType === "touch") {
+      isDragging = false;
+      return;
+    }
 
     isDragging = true;
 
