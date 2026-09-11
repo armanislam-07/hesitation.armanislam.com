@@ -827,6 +827,187 @@ body {
 }
 
 
+
+
+/* =========================================================
+   PROJECT B-ROLL
+========================================================= */
+
+.broll-section {
+  position: relative;
+  z-index: 10;
+
+  width: 100%;
+  height: 100vh;
+  min-height: 680px;
+
+  overflow: hidden;
+
+  background: #050505;
+  color: white;
+}
+
+.broll-media {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+  background: #08090a;
+}
+
+.broll-video {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  background: #08090a;
+
+  filter:
+    contrast(1.05)
+    brightness(.72)
+    saturate(.84);
+
+  transform: scale(1.01);
+
+  opacity: 0;
+
+  transition:
+    opacity .8s ease,
+    transform 8s cubic-bezier(.15,.6,.2,1);
+}
+
+.broll-section.is-ready
+.broll-video {
+  opacity: 1;
+  transform: scale(1.035);
+}
+
+.broll-shade {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.10) 0%,
+      rgba(0,0,0,.05) 35%,
+      rgba(0,0,0,.18) 62%,
+      rgba(0,0,0,.76) 100%
+    );
+
+  pointer-events: none;
+}
+
+.broll-index {
+  position: absolute;
+
+  top: clamp(24px, 4vw, 58px);
+  left: clamp(24px, 5vw, 84px);
+
+  z-index: 2;
+
+  font-size: 9px;
+  font-weight: 300;
+
+  letter-spacing: .27em;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,.62);
+}
+
+.broll-copy {
+  position: absolute;
+
+  left: clamp(24px, 5vw, 84px);
+  bottom: clamp(58px, 8vw, 118px);
+
+  z-index: 2;
+
+  max-width: 1100px;
+}
+
+.broll-copy h2 {
+  margin: 0;
+
+  font-size:
+    clamp(3.25rem, 7.7vw, 9rem);
+
+  font-weight: 100;
+
+  line-height: .86;
+
+  letter-spacing: -.058em;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 8px 42px rgba(0,0,0,.24);
+}
+
+.broll-status {
+  position: absolute;
+
+  right: clamp(24px, 5vw, 84px);
+  bottom: clamp(28px, 4vw, 54px);
+
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 8px;
+  font-weight: 300;
+
+  letter-spacing: .22em;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,.50);
+}
+
+.broll-status-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+
+  opacity: .75;
+}
+
+
+/* =========================================================
+   B-ROLL MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .broll-section {
+    min-height: 620px;
+  }
+
+  .broll-copy h2 {
+    font-size:
+      clamp(3rem, 15vw, 5.2rem);
+  }
+
+  .broll-status {
+    left: 24px;
+    right: auto;
+    bottom: 24px;
+  }
+
+}
+
+
 /* =========================================================
    FULL TEAM PHOTO SECTION
    Active Meet the Team layout
